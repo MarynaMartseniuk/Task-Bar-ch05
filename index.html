@@ -9,11 +9,34 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+  <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" /> -->
 
+  <!-- added -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+  <!-- <link rel="stylesheet" href="/resources/demos/style.css"> -->
 
-
+  <!-- do not del -->
   <link rel="stylesheet" href="./assets/css/style.css" />
+
+    <!-- added -->
+  <style>
+    label {
+      display: inline-block; width: 5em;
+    }
+    fieldset div {
+      margin-bottom: 2em;
+    }
+    fieldset .help {
+      display: inline-block;
+    }
+    .ui-tooltip {
+      width: 210px;
+    }
+    </style>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+
   <title>Task Board</title>
 </head>
 
@@ -24,10 +47,50 @@
   </header>
   <div class="container">
     <div class="text-center mb-5">
-      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formModal">Add Task</button>
+      <button id="addNewTaskBtn" class="btn btn-primary btn-success" data-bs-toggle="modal" data-bs-target="#formModal">Add Task</button>
     </div>
 
     <!-- Todo: Create a modal with a form to add tasks -->
+    <!-- Modal -->
+    <div class="modal fade" id="formModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <!-- https://jqueryui.com/tooltip/#forms -->
+                <form>
+                    <fieldset>
+                      <div id="taskId"></div>
+                      <div>
+                        <label for="taskTitle">Title</label>
+                        <input id="taskTitle" name="taskTitle">
+                      </div>
+                      <div>
+                        <label for="taskDescription">Description</label>
+                        <input id="taskDescription" name="taskDescription">
+                      </div>
+                      <div>
+                        <label for="taskDueDate">Due Date</label>
+                        <input id="taskDueDate" name="taskDueDate">
+                      </div>
+                    </fieldset>
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+      </div>
+    </div>
 
 
 
