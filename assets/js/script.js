@@ -19,14 +19,18 @@ function generateTaskId() {
     };
 
     newTaskId = letterId + '-' + numberId;
-    console.log(newTaskId);
+    // console.log(newTaskId);
+    return newTaskId;
     };
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
-
-    const gardenNoteForm = document.querySelector('#gardenNotesForm');
-
+    
+    //get Task ID
+    const displayTaskID = document.querySelector('#taskId');
+    createIdEl = document.createElement('h4');
+    createIdEl.textContent = 'Task ID#  ' + generateTaskId();
+    displayTaskID.appendChild(createIdEl);
 
 
 }
@@ -61,3 +65,8 @@ function handleDrop(event, ui) {
 $(document).ready(function () {
 
 });
+
+
+const addNewTaskButton = document.querySelector('#addNewTaskBtn');
+addNewTaskButton.addEventListener('click', createTaskCard());
+
