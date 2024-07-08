@@ -3,17 +3,42 @@ let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 
 // Todo: create a function to generate a unique task id
-function generateTaskId() {
 
-}
+function generateTaskId() {
+    let letterId = '';
+    let numberId = '';
+
+    for (let i = 0; i < 2; i++) {
+        newLetter  = Math.floor(Math.random() * 58) + 65;
+        letterId = letterId + String.fromCharCode(newLetter);
+    };
+
+    for (let j = 0; j < 5; j++) {
+        newNumber  = Math.floor(Math.random() * 10) + 48;
+        numberId = numberId  + String.fromCharCode(newNumber);
+    };
+
+    newTaskId = letterId + '-' + numberId;
+    console.log(newTaskId);
+    };
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
+
+    const gardenNoteForm = document.querySelector('#gardenNotesForm');
+
+
 
 }
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
+
+    //source https://jqueryui.com/draggable/#default
+    $( function() {
+        $( "#draggable" ).draggable();
+    } );
+
 
 }
 
