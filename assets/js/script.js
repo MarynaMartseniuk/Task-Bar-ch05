@@ -23,7 +23,8 @@ function generateTaskId() {
     };
 
 // Todo: create a function to create a task card
-function createTaskCard() {
+function createTaskCard(event) {
+    // event.stopPropagation();
     
     const displayTaskStatus = document.querySelector('#taskStatus');
     createStatusEl = document.createElement('h4');
@@ -63,64 +64,64 @@ function renderTaskList() {
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
-    //event.stopPropagation();
 
-    //wait for Modal to be opened and then what you need to do.
-    $('#formModal').on('shown.bs.modal', function () {
+    var taskTitleInput = document.querySelector('#taskTitle');
+    var taskDescriptionInput = document.querySelector('#taskDescription');
+    var taskDueDateInput = document.querySelector('#taskDueDate');
+    var addNewTask ={}; // new task object
+    var taskList = JSON.parse(localStorage.getItem("tasks list")) || []; // array of tasks objects that saved in Local Storage. It is data that is already saved to local stogare or empty array if local storage is empty
+    var tip;
+    const line;
 
-        //set an event listener for the SAVE button. So at this moment user should 
-        const saveDataButton = document.querySelector('#saveNewTaskDataBtn');
+    // if user provided all neccesary info then code will work with it (save to Local Storage, display on the page) 
+    if (taskTitleInput.value 
+        && taskDescriptionInput.value
+        && taskDueDateInput.value) {
 
-        saveDataButton.addEventListener('click', function () {
+                //get Task ID
+        const displayTaskID = document.querySelector('#taskId');
+        createIdEl = document.createElement('h4');
+        createSpan = document.createElement('span'); // createSpan is a unique ID value for task card
 
-            // if user provided all neccesary info then code will work with it (save to Local Storage, display on the page) 
-            if (taskTitleInput.value 
-                && taskDescriptionInput.value
-                && taskDueDateInput.value) {
+        createIdEl.textContent = 'Task ID#  ';
+        createSpan.textContent = generateTaskId();
 
-                var addNewTask = {};
+        // displayTaskID.appendChild(createIdEl);
+        createIdEl.appendChild(createSpan);
+        displayTaskID.appendChild(createIdEl);
 
-                var taskTitleInput = document.querySelector('#taskTitle').value;
-                var taskDescriptionInput = document.querySelector('#taskDescription').value;
-                var taskDueDateInput = document.querySelector('#taskDueDate').value;
+        // set an id attrubute for just has created element with the value of card id
+        // createSpan.setAttribute('id', createSpan.textContent);
+                // end of get Task ID
+                                    
+                // get data-format for day input so day.js can work with
+        const dueDateDayJS = dayjs(taskDueDateInput.value);
+        // console.log(dueDateDayJS);
+        
+                // save data of a new task to the Local Storage
+        addNewTask = {
+        ID: createSpan.value,
+        status: 'Not Yet Started',
+        title: taskTitleInput.value,
+        description: taskDescriptionInput.value,
+        dueDate: dueDateDayJS
+        };
+        // console.log(addNewTask);
+        
+        taskList.push(addNewTask);
 
-                console.log(taskTitleInput);
- 
-                        //get Task ID
-                const displayTaskID = document.querySelector('#taskId');
-                createIdEl = document.createElement('h4');
-                createSpan = document.createElement('span');
+        localStorage.setItem('tasks list', JSON.stringify(taskList));
+        tip.textContent = '';
+    } else {
+        tip = document.createElement('p');
+        line = document.createElement('hr/');
+        tip.textContent = " please, fill in all data!"
+    };
 
-                createIdEl.textContent = 'Task ID#  ';
-                createSpan.textContent = generateTaskId();
+    taskTitleInput.textContent.value = '';
+    taskDescriptionInput.value = '';
+    taskDueDateInput.value = "2024-01-01";
 
-                // displayTaskID.appendChild(createIdEl);
-                createIdEl.appendChild(createSpan);
-                displayTaskID.appendChild(createIdEl);
-                // createSpan.setAttribute('id', createSpan.textContent);
-                        // end of get Task ID
-                                          
-
-                        // get data-format for day input so day.js can work with
-                const dueDateDayJS = dayjs(taskDueDateInput.value);
-                console.log(dueDateDayJS);
-                    
-                        // create a new task object to add it to taskList array (that store tasks date in the Local Storage)
-                addNewTask = {
-                    ID: createSpan.value,
-                    status: 'Not Yet Started',
-                    title: taskTitleInput.value,
-                    description: taskDescriptionInput.value,
-                    dueDate: dueDateDayJS
-                }
-                console.log(addNewTask);
-            
-            };
-    
-          taskTitleInput.textContent = '';
-        });
-      
-    });
 }
 
 // Todo: create a function to handle deleting a task
@@ -136,11 +137,16 @@ function handleDrop(event, ui) {
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
 
+    const addNewTaskButton = document.querySelector('#addNewTaskBtn');
+    addNewTaskButton.addEventListener('click', createTaskCard());
+
+    const saveDataButton = document.querySelector('#saveNewTaskDataBtn');
+    saveDataButton.addEventListener('click', handleAddTask ());
+
 });
 
 
-const addNewTaskButton = document.querySelector('#addNewTaskBtn');
-addNewTaskButton.addEventListener('click', createTaskCard());
+
 
 // const saveDataButton = document.querySelector('.saveNewTaskDataBtn');
 // saveDataButton.addEventListener('submit', handleAddTask()); 
@@ -161,30 +167,30 @@ addNewTaskButton.addEventListener('click', createTaskCard());
         //       });
         //     });
         //   });
-// document.addEventListener('DOMContentLoaded', function () {} - to ensure our script runs after the DOM has fully loaded.
-document.addEventListener('DOMContentLoaded', function () {
-    // $('#myModal').on('shown.bs.modal', function () {} - to ensure the modal is fully loaded and the modal has been made visible to the user. And only after the code ewill run.
-    $('#myModal').on('shown.bs.modal', function () {
-      // Attach an event listener to the button inside the modal
+// // document.addEventListener('DOMContentLoaded', function () {} - to ensure our script runs after the DOM has fully loaded.
+// document.addEventListener('DOMContentLoaded', function () {
+//     // $('#myModal').on('shown.bs.modal', function () {} - to ensure the modal is fully loaded and the modal has been made visible to the user. And only after the code ewill run.
+//     $('#myModal').on('shown.bs.modal', function () {
+//       // Attach an event listener to the button inside the modal
 
-      const saveDataButton = document.querySelector('.saveNewTaskDataBtn');
-      saveDataButton.addEventListener('click', handleAddTask());
-    });
-  });
+//       const saveDataButton = document.querySelector('.saveNewTaskDataBtn');
+//       saveDataButton.addEventListener('click', handleAddTask());
+//     });
+//   });
   
 
-  const toDoColumn = document.querySelector('#todo-cards');
-    var card;
+//   const toDoColumn = document.querySelector('#todo-cards');
+//     var card;
     
-    card = document.createElement('div');
-    card.setAttribute('id', 'draggable');
-    card.setAttribute('class', 'ui-widget-content');
+//     card = document.createElement('div');
+//     card.setAttribute('id', 'draggable');
+//     card.setAttribute('class', 'ui-widget-content');
 
-    text = document.createElement('p');
-    text.textContent = 'test card';
-    card.appendChild(text);
-    toDoColumn.appendChild(card);
-    //source https://jqueryui.com/draggable/#default
-    $( function() {
-        $( "#draggable" ).draggable();
-    } );
+//     text = document.createElement('p');
+//     text.textContent = 'test card';
+//     card.appendChild(text);
+//     toDoColumn.appendChild(card);
+//     //source https://jqueryui.com/draggable/#default
+//     $( function() {
+//         $( "#draggable" ).draggable();
+//     } );
