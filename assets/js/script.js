@@ -45,21 +45,60 @@ function createTaskCard(event) {
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
 
-    // const toDoColumn = document.querySelector('#todo-cards');
-    // var card;
-    
-    // card = document.createElement('div');
-    // card.setAttribute('id', 'draggable');
-    // card.setAttribute('class', 'ui-widget-content');
+    // const containers = document.querySelectorAll('.container');
 
-    // text = document.createElement('p');
-    // text.textContent = 'test card';
-    // card.appendChild(text);
-    // toDoColumn.appendChild(card);
-    // //source https://jqueryui.com/draggable/#default
-    // $( function() {
-    //     $( "#draggable" ).draggable();
-    // } );
+    const toDoColumn = document.querySelector('#todo-cards');
+    var card;
+    
+    card = document.createElement('div');
+    card.setAttribute('id', 'draggable');
+    card.setAttribute('class', 'ui-widget-content');
+
+    textTitle = document.createElement('p');
+    textTitle.textContent = 'task title';
+    card.appendChild(textTitle);
+    toDoColumn.appendChild(card);
+
+    textDescription = document.createElement('p');
+    textDescription.textContent = 'task Description';
+    card.appendChild(textDescription);
+    toDoColumn.appendChild(card);
+
+    textDueDate = document.createElement('p');
+    textDueDate.textContent = 'task DueDate';
+    card.appendChild(textDueDate);
+    toDoColumn.appendChild(card);
+
+
+    $( function() {
+        $( "#draggable" ).draggable();
+
+        
+    // $( "#todo-cards" ).droppable({
+    //     drop: handleDrop(event, ui){
+    //         $('#draggable').append(ui.draggable);
+    //     }
+    // });
+    // $( "#in-progress-cards" ).droppable({
+    //     drop: handleDrop(event, ui)
+    // });
+    // $( "#done-cards" ).droppable({
+    //     drop: handleDrop(event, ui)
+    // });
+
+    });
+
+    //source https://jqueryui.com/draggable/#default
+    
+//    containers.forEach(container => {
+//         container.addEventListener('dragover', event => {
+//             event.preventDefault();
+//             $( function() {
+//                 $( "#draggable" ).draggable();
+//             });
+
+//         });
+//     });
 }
 
 // Todo: create a function to handle adding a new task
@@ -71,7 +110,7 @@ function handleAddTask(event){
     var addNewTask ={}; // new task object
     var taskList = JSON.parse(localStorage.getItem("tasks list")) || []; // array of tasks objects that saved in Local Storage. It is data that is already saved to local stogare or empty array if local storage is empty
     var tip;
-    const line;
+    var line;
 
     // if user provided all neccesary info then code will work with it (save to Local Storage, display on the page) 
     if (taskTitleInput.value 
@@ -126,16 +165,21 @@ function handleAddTask(event){
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
-
+    
 }
 
 // Todo: create a function to handle dropping a task into a new status lane
 function handleDrop(event, ui) {
 
+    $('#draggable').append(ui.draggable);
+
+
 }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
+
+    renderTaskList();
 
     const addNewTaskButton = document.querySelector('#addNewTaskBtn');
     addNewTaskButton.addEventListener('click', createTaskCard());
