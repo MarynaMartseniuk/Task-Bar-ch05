@@ -1,11 +1,13 @@
 // Retrieve tasks and nextId from localStorage
 let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
-let nextId = JSON.parse(localStorage.getItem("nextId"));
+let nextId = JSON.parse(localStorage.getItem("nextId")) || [];
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
+
     let letterId = '';
     let numberId = '';
+    let newIdValue = '';
 
     for (let i = 0; i < 2; i++) {
         newLetter  = Math.floor(Math.random() * 58) + 65;
@@ -17,9 +19,10 @@ function generateTaskId() {
         numberId = numberId  + String.fromCharCode(newNumber);
     };
 
-    newTaskId = letterId + '-' + numberId;
+    newIdValue = letterId + '-' + numberId;
     // console.log(newTaskId);
-    return newTaskId;
+    return newIdValue;
+   
     };
 
 // Todo: create a function to create a task card
@@ -45,62 +48,112 @@ function createTaskCard(event) {
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
 
-    // const containers = document.querySelectorAll('.container');
-
+    //#1. create cards from LocalStorage info (localStorage.getItem("tasks")) and set all necessary attributes to elements
     const toDoColumn = document.querySelector('#todo-cards');
-    var card;
     
-    card = document.createElement('div');
-    card.setAttribute('id', 'draggable');
-    card.setAttribute('class', 'ui-widget-content');
+    //TEST cards (use this because Local storage is not set up yet. Delete it after functionality is done and create card with LocalStorage info)
 
-    textTitle = document.createElement('p');
-    textTitle.textContent = 'task title';
-    card.appendChild(textTitle);
-    toDoColumn.appendChild(card);
+    // test card1
+    card1 = document.createElement('div');
+    //card1.setAttribute('id', 'draggable');
+    card1.setAttribute('class', 'ui-widget-content');
+    card1.setAttribute('onmousedown', 'mouseDown()');
+    card1.setAttribute('onmouseup', 'mouseUp()');
+    card1.setAttribute('onmouseenter', 'mouseEnter()');
+    //card1.setAttribute('onmouseleave', 'mouseLeave()');
 
-    textDescription = document.createElement('p');
-    textDescription.textContent = 'task Description';
-    card.appendChild(textDescription);
-    toDoColumn.appendChild(card);
+    textTitle1 = document.createElement('p');
+    textTitle1.textContent = 'task title';
+    card1.appendChild(textTitle1);
+    toDoColumn.appendChild(card1);
 
-    textDueDate = document.createElement('p');
-    textDueDate.textContent = 'task DueDate';
-    card.appendChild(textDueDate);
-    toDoColumn.appendChild(card);
+    textDescription1 = document.createElement('p');
+    textDescription1.textContent = 'task Description';
+    card1.appendChild(textDescription1);
+    toDoColumn.appendChild(card1);
 
+    textDueDate1 = document.createElement('p');
+    textDueDate1.textContent = 'task DueDate';
+    card1.appendChild(textDueDate1);
+    toDoColumn.appendChild(card1);
+    //end of card1
 
+    // test card2
+    card2 = document.createElement('div');
+    //card2.setAttribute('id', 'draggable');
+    card2.setAttribute('class', 'ui-widget-content');
+    card2.setAttribute('onmousedown', 'mouseDown()');
+    card2.setAttribute('onmouseup', 'mouseUp()');
+    card2.setAttribute('onmouseenter', 'mouseEnter()');
+    //card2.setAttribute('onmouseleave', 'mouseLeave()');
+
+    textTitle2 = document.createElement('p');
+    textTitle2.textContent = 'task title';
+    card2.appendChild(textTitle2);
+    toDoColumn.appendChild(card2);
+
+    textDescription2 = document.createElement('p');
+    textDescription2.textContent = 'task Description';
+    card2.appendChild(textDescription2);
+    toDoColumn.appendChild(card2);
+
+    textDueDate2 = document.createElement('p');
+    textDueDate2.textContent = 'task DueDate';
+    card2.appendChild(textDueDate2);
+    toDoColumn.appendChild(card2);
+    //end of card2
+
+    // end of TEST cards
+    
+    // #2. Find element that is currently draggable 
+        //set attribute id='draggable' (only one element can have this id) to that element and delete this attribute when that element is dropped
+
+        // source: https://www.w3schools.com/jsref/event_onmouseenter.asp
+
+        //The onmouseenter event occurs when the mouse pointer enters an element. This attribute is set up only for the card[i] = document.createElement('div'); (for each card that is created). 
+    function mouseEnter() {
+
+            // When mause enters this element we are listernung for:
+            //#2.1. the mouse button is pressed over the element. And if it is so then set attribute id='draggable' for this element. The mouseDown() is set up only for card[i] = document.createElement('div');.
+        function mouseDown() {
+            // $(this).setAttribute('id', 'draggable');
+            // $(this).style.backgroundColor= "red";
+            document.querySelector('.ui-widget-content').setAttribute('id', 'draggable');
+            document.querySelector('.ui-widget-content').style.color = "red";
+            
+        };
+
+            //#2.2. the mouse button is released over an element. And if it is so then remove attribute id='draggable' from this element. The mouseUp() is set up only for card[i] = document.createElement('div');.
+        function mouseUp() {
+            document.querySelector('.ui-widget-content').removeAttribute('id', 'draggable');
+            document.querySelector('.ui-widget-content').style.color = "green";
+        };
+    };
+    
+    //  ???move this function inside of function mouseDown()???
+    // #3. function that handles drag and drop the element 
     $( function() {
-        $( "#draggable" ).draggable();
 
+            // #3.1. make draggable element be draggable
+            // "#draggable" - the element that we defined with the function mouseDown()
+            // .draggable() - function that make this element ("#draggable") draggable
+        $("#draggable").draggable();
+
+            //#3.2. make columns <div>s droppable so we can drop there the draggable element
+            // ".droppable" - all elements with the class='droppable' (our columns)
+        $( ".droppable" ).droppable({
+
+                    // #3.2.1. handle drop event by using function handleDrop(event, ui) 
+                drop: function handleDrop(event, ui) {
+                        // event - event itself
+                        // ui - ui oject that triggered the event, the element that user drag and drop. This element has property "draggable"
+                    $('.droppable').append(ui.draggable);
+                }
+        });
         
-    // $( "#todo-cards" ).droppable({
-    //     drop: handleDrop(event, ui){
-    //         $('#draggable').append(ui.draggable);
-    //     }
-    // });
-    // $( "#in-progress-cards" ).droppable({
-    //     drop: handleDrop(event, ui)
-    // });
-    // $( "#done-cards" ).droppable({
-    //     drop: handleDrop(event, ui)
-    // });
-
     });
-
-    //source https://jqueryui.com/draggable/#default
-    
-//    containers.forEach(container => {
-//         container.addEventListener('dragover', event => {
-//             event.preventDefault();
-//             $( function() {
-//                 $( "#draggable" ).draggable();
-//             });
-
-//         });
-//     });
 }
-
+    
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
 
@@ -108,10 +161,9 @@ function handleAddTask(event){
     var taskDescriptionInput = document.querySelector('#taskDescription');
     var taskDueDateInput = document.querySelector('#taskDueDate');
     var addNewTask ={}; // new task object
-    var taskList = JSON.parse(localStorage.getItem("tasks list")) || []; // array of tasks objects that saved in Local Storage. It is data that is already saved to local stogare or empty array if local storage is empty
+    // var taskList = JSON.parse(localStorage.getItem("tasks")) || []; // it is already declared on the top of this file.Array of tasks objects that saved in Local Storage. It is data that is already saved to local stogare or empty array if local storage is empty
     var tip;
-    var line;
-
+    
     // if user provided all neccesary info then code will work with it (save to Local Storage, display on the page) 
     if (taskTitleInput.value 
         && taskDescriptionInput.value
@@ -130,7 +182,7 @@ function handleAddTask(event){
         displayTaskID.appendChild(createIdEl);
 
         // set an id attrubute for just has created element with the value of card id
-        // createSpan.setAttribute('id', createSpan.textContent);
+        createSpan.setAttribute('id', createSpan.textContent);
                 // end of get Task ID
                                     
                 // get data-format for day input so day.js can work with
@@ -149,11 +201,10 @@ function handleAddTask(event){
         
         taskList.push(addNewTask);
 
-        localStorage.setItem('tasks list', JSON.stringify(taskList));
+        localStorage.setItem('tasks', JSON.stringify(taskList));
         tip.textContent = '';
     } else {
         tip = document.createElement('p');
-        line = document.createElement('hr/');
         tip.textContent = " please, fill in all data!"
     };
 
@@ -168,13 +219,15 @@ function handleDeleteTask(event){
     
 }
 
-// Todo: create a function to handle dropping a task into a new status lane
-function handleDrop(event, ui) {
+// // Todo: create a function to handle dropping a task into a new status lane
+// function handleDrop(event, ui) {
+//     // event - event itself
+//     // ui - ui oject that triggered the event, the element that user drag and drop. This element has property "draggable"
+//     // $(this).append(ui.draggable);
 
-    $('#draggable').append(ui.draggable);
 
-
-}
+//     $('.droppable').append(ui.draggable);
+// }
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
@@ -186,15 +239,8 @@ $(document).ready(function () {
 
     const saveDataButton = document.querySelector('#saveNewTaskDataBtn');
     saveDataButton.addEventListener('click', handleAddTask ());
-
+    
 });
-
-
-
-
-// const saveDataButton = document.querySelector('.saveNewTaskDataBtn');
-// saveDataButton.addEventListener('submit', handleAddTask()); 
-
 
 
 // add event listener on SAVE Button (to save new task data to Local Storage and display it on the screen). 
@@ -222,19 +268,3 @@ $(document).ready(function () {
 //     });
 //   });
   
-
-//   const toDoColumn = document.querySelector('#todo-cards');
-//     var card;
-    
-//     card = document.createElement('div');
-//     card.setAttribute('id', 'draggable');
-//     card.setAttribute('class', 'ui-widget-content');
-
-//     text = document.createElement('p');
-//     text.textContent = 'test card';
-//     card.appendChild(text);
-//     toDoColumn.appendChild(card);
-//     //source https://jqueryui.com/draggable/#default
-//     $( function() {
-//         $( "#draggable" ).draggable();
-//     } );
