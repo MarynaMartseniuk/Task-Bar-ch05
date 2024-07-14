@@ -29,13 +29,22 @@ function generateTaskId() {
 
     newTaskId = newId();
 
-    //TODO: save every id to the Local Storage
-    // #1. get data from Local Storage: let nextId = JSON.parse(localStorage.getItem("nextId"));
-    // #2. loop through the data from Local Storage (for-loop) to check if a new id (newTaskId) matchs any id from Local Storage
-    // #3. IF a new id does not match any value from array (for-loop returs fauls) then save a new id to Local Storage (first, add it to array with array.push(newTaskId), then sringify it and save to the Local Storage with the key "nextId") ELSE call function newId().
+    //TODO: save every id to the Local Storage and check if local storage does not have lement with such value
+    // #1. get data from Local Storage: 
+    let nextId = JSON.parse(localStorage.getItem("nextId"));
+
+    // #2. loop through the data from Local Storage (for-loop) to check if a new id (newTaskId) matchs any id from Local Storage. IF a new id matches any value (everyID) from array  then call function newId() to generate a newTaskId again.
+    nextId.forEach(everyID => {
+        if (everyID===newTaskId) {
+            newId();
+        };
+    });
+
+    // #3.save a new id to Local Storage 
+    nextId.push(newTaskId);
+    localStorage.setItem('nextId', JSON.stringify(nextId));
     
     return newTaskId; 
-
     };
 
 // Todo: create a function to create a task card
