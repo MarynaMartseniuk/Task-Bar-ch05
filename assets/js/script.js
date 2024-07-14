@@ -111,15 +111,16 @@ function createTaskCard(event) {
         card.appendChild(tip);
         
     };
+
+    taskTitleInput.textContent.value = '';
+    taskDescriptionInput.value = '';
+    taskDueDateInput.value = "2024-01-01";
            
 };
 
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-
-    
-    // end of TEST cards
     
     // #1. Find element that is currently draggable 
         //set attribute id='draggable' (only one element can have this id) to that element and delete this attribute when that element is dropped
@@ -173,35 +174,52 @@ function renderTaskList() {
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
 
-    var taskTitleInput = document.querySelector('#taskTitle');
-    var taskDescriptionInput = document.querySelector('#taskDescription');
-    var taskDueDateInput = document.querySelector('#taskDueDate');
+    // const newTaskTitle = document.querySelector('#taskTitle');
+    // const newtaskDescription = document.querySelector('#taskDescription');
+    // const newtaskDueDate = document.querySelector('#taskDueDate');
     var addNewTask ={}; // new task object
           
-        // save data of a new task to the Local Storage
-        addNewTask = {
-        ID: createSpan.value,
-        status: 'Not Yet Started',
-        title: taskTitleInput.value,
-        description: taskDescriptionInput.value,
-        dueDate: dueDateDayJS
-        };
-        // console.log(addNewTask);
-        
-        taskList.push(addNewTask);
-
-        localStorage.setItem('tasks', JSON.stringify(taskList));
-
+    addNewTask = {
+    ID: createSpan.value,
+    title: textTitle.value,
+    description: textDescription.value,
+    dueDate: textDueDate.value
+    };
+    // console.log(addNewTask);
     
-    taskTitleInput.textContent.value = '';
-    taskDescriptionInput.value = '';
-    taskDueDateInput.value = "2024-01-01";
+    taskList.push(addNewTask);
+
+    localStorage.setItem('tasks', JSON.stringify(taskList));
 
 }
 
 // Todo: create a function to handle deleting a task
 function handleDeleteTask(event){
     
+        // #1. get id of the task that was clicked (taskDelId). It is equel to id value of the DELETE button that was clicked.
+        // sourse: modal-04 activity-19
+        const cardLocation = document.querySelector('#columns');
+        let taskDelId;
+    
+        cardLocation.addEventListener('click', function(event) {
+            const cardToDeleteBtn = event.target;
+            taskDelId = cardToDeleteBtn.getAttribute('id');
+        });
+    
+    
+            // #2. get array from Local Storage: 
+        taskList = JSON.parse(localStorage.getItem("tasks"));
+    
+            // #3. find element of array that has value as the card id and delete this element from the array: 
+        let position = taskList.indexOf(taskDelId);
+        taskList.splice(position, 1);
+    
+            // #4. save new array to Local Storage: localStorage.setItem('tasks', JSON.stringify(taskList));
+        localStorage.setItem('tasks', JSON.stringify(taskList));
+    
+            // #5. delete the card which is a parent element of DELETE button
+        const cardToDelete = document.querySelector('#${taskDelId}');
+        cardToDelete.parentElement.remove();
 }
 
 // // Todo: create a function to handle dropping a task into a new status lane
@@ -218,6 +236,7 @@ function handleDeleteTask(event){
 $(document).ready(function () {
 
     renderTaskList();
+    handleDeleteTask();
 
     const saveDataButton = document.querySelector('#saveNewTaskDataBtn');
     saveDataButton.addEventListener('click', createTaskCard());
