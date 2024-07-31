@@ -27,7 +27,7 @@ So user can manage his/her work to be succesfull, save time and have better expe
 to use this wabApp simply follow the link: 
 
 ## Usage
-![WebPage as it looks like]([https://github.com/MarynaMartseniuk/Personal-Blog-ch04/blob/main/assets/images/first-page.jpg](https://github.com/MarynaMartseniuk/Task-Bar-ch05/blob/main/assets/images/home-page-ch05.png))
+![WebPage as it looks like](https://github.com/MarynaMartseniuk/Task-Bar-ch05/blob/main/assets/images/home-page-ch05.jpg)
 
 1. from Homepage click "add task" button;
 2. fill in pop-up window with the "New TaskInfo";
