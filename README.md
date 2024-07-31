@@ -31,9 +31,9 @@ to use this wabApp simply follow the link:
 
 1. from Homepage click "add task" button;
 2. fill in pop-up window with the "New TaskInfo";
-3. this kard with a new task will appear in "Not Yet Started" column, uniqe task ID will be generated automaticaly;
-4. user can drag any task in any colunm he /she needs to change the status of the task;
-5. click on "DELETE TASK" button to delete the task
+3. this kard with a new task will appear in "Not Yet Started" column, uniqe task ID will be generated automaticaly; (under developing now)
+4. user can drag any task in any colunm he /she needs to change the status of the task; (under developing now, as a cards are used a test-cards)
+5. click on "DELETE TASK" button to delete the task. (under developing now)
 
 ## Credits
 in this project I used matterial from Coding Bootcam university of Utah (modal 5)
@@ -42,5 +42,5 @@ in this project I used matterial from Coding Bootcam university of Utah (modal 5
 all code is under MIT license. To know more, please go to the License section of this repo.
 
 ## Features
-Every task is highlighted by specific color so user is ease able to see the time left to a due date.
+Every task is highlighted by specific color so user is ease able to see the time left to a due date. (under developing now)
 
