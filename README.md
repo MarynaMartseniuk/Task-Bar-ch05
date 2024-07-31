@@ -24,7 +24,7 @@ So user can manage his/her work to be succesfull, save time and have better expe
  - how to use date to for dinamicly notifications.
 
 ## Installation
-to use this wabApp simply follow the link: 
+to use this wabApp simply follow the link: https://marynamartseniuk.github.io/Task-Bar-ch05/
 
 ## Usage
 ![WebPage as it looks like](https://github.com/MarynaMartseniuk/Task-Bar-ch05/blob/main/assets/images/home-page-ch05.jpg)
